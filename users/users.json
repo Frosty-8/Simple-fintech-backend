@@ -1,0 +1,11 @@
+{
+    "users": [
+        {
+            "id": "USR-5e5b72e2",
+            "name": "Sarthak",
+            "email": "sarthak@google.com",
+            "password": "$2b$12$8kO0QmMY79lzOZxKepSg7.tCzgPj0itMuvyES4m8bx03TmYOXEAVy",
+            "wallet_id": "WAL-af27b77e"
+        }
+    ]
+}
