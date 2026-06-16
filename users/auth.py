@@ -63,7 +63,7 @@ def get_current_user(
         payload = verify_token(token)
 
         return payload
-    except:
+    except Exception:
         raise HTTPException(
             status_code=401,
             detail="Invalid Token"
