@@ -12,7 +12,8 @@ from services.user_service import (
 )
 
 from services.wallet_service import (
-    create_wallet
+    create_wallet,
+    transfer
 )
 
 from schemas.user_schema import (
@@ -28,7 +29,19 @@ from users.auth import (
 )
 
 from services.wallet_service import (
-    get_wallet
+    get_wallet,
+    deposit,
+    withdraw
+)
+
+from schemas.wallet_schema import (
+    DepositRequest,
+    WithdrawRequest,
+    TransferRequest
+)
+
+from services.transaction_service import (
+    get_transactions
 )
 
 
@@ -43,7 +56,7 @@ def home():
         "message":"Fintech WALLET API Running"
     }
 
-@router.post("/post")
+@router.post("/register")
 def register(
     payload: UserRegister
 ):
@@ -105,3 +118,58 @@ def wallet(
         )
     
     return dict(wallet)
+
+@router.post("/deposit")
+def deposit_money(
+    payload: DepositRequest,
+    user=Depends(get_current_user)
+):
+    deposit(
+        user["sub"],
+        payload.amount
+    )
+
+    return {
+        "message":
+        "Money deposited successfully"
+    }
+
+@router.post("/withdraw")
+def withdraw_money(
+    payload: WithdrawRequest,
+    user=Depends(get_current_user)
+):
+    withdraw(
+        user["sub"],
+        payload.amount
+    )
+
+    return {
+        "message":
+        "Money withdrawn successfully"
+    } 
+
+
+@router.post("/transfer")
+def transfer_money(
+    payload: TransferRequest,
+    user=Depends(get_current_user)
+):
+    return transfer(
+        user["sub"],
+        payload.receiver_wallet_id,
+        payload.amount
+    )
+
+
+@router.post("/transactions")
+def transactions(
+    user=Depends(get_current_user)
+):
+    wallet = get_wallet(
+        user["sub"]
+    )
+
+    return get_transactions(
+        wallet["wallet_id"]
+    )
