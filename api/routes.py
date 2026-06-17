@@ -1,49 +1,68 @@
-#------------------------------------------
-#   Importing the Library
-#------------------------------------------
-from fastapi import APIRouter, HTTPException, Depends
-
-from schemas.user_schema import (
-    UserRegister
+# ------------------------------------------
+# Imports
+# ------------------------------------------
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException
 )
 
+# Schemas
+from schemas.user_schema import (
+    UserRegister,
+    UserLogin
+)
+
+from schemas.wallet_schema import (
+    DepositRequest,
+    WithdrawRequest,
+    TransferRequest
+)
+
+# Services
 from services.user_service import (
     create_user
 )
 
 from services.wallet_service import (
-    create_wallet
+    create_wallet,
+    get_wallet,
+    deposit,
+    withdraw,
+    transfer
 )
 
-from schemas.user_schema import (
-    UserLogin
+from services.transaction_service import (
+    get_transactions
 )
 
+# Authentication
 from users.auth import (
-    login_user
-)
-
-from users.auth import (
+    login_user,
     get_current_user
 )
 
-from services.wallet_service import (
-    get_wallet
-)
 
-
-#-----------------------------------
-#   Router
-#-----------------------------------
+# ------------------------------------------
+# Router
+# ------------------------------------------
 router = APIRouter()
 
+
+# ------------------------------------------
+# Home
+# ------------------------------------------
 @router.get("/")
 def home():
     return {
-        "message":"Fintech WALLET API Running"
+        "message": "Fintech Wallet API Running"
     }
 
-@router.post("/post")
+
+# ------------------------------------------
+# Register
+# ------------------------------------------
+@router.post("/register")
 def register(
     payload: UserRegister
 ):
@@ -53,6 +72,7 @@ def register(
             payload.email,
             payload.password
         )
+
         create_wallet(
             user["wallet_id"],
             user["id"]
@@ -67,13 +87,17 @@ def register(
                 "wallet_id": user["wallet_id"]
             }
         }
-    
-    except Exception as e: 
+
+    except Exception as e:
         raise HTTPException(
             status_code=400,
             detail=str(e)
         )
-    
+
+
+# ------------------------------------------
+# Login
+# ------------------------------------------
 @router.post("/login")
 def login(
     payload: UserLogin
@@ -84,24 +108,113 @@ def login(
     )
 
 
+# ------------------------------------------
+# Profile
+# ------------------------------------------
 @router.get("/profile")
 def profile(
-    user=Depends(
-        get_current_user
-    )
+    user=Depends(get_current_user)
 ):
     return user
 
+
+# ------------------------------------------
+# Wallet
+# ------------------------------------------
 @router.get("/wallet")
 def wallet(
-    user = Depends(get_current_user)
+    user=Depends(get_current_user)
 ):
-    wallet = get_wallet(user["sub"])
+    wallet = get_wallet(
+        user["sub"]
+    )
 
     if not wallet:
         raise HTTPException(
             status_code=404,
             detail="Wallet not found"
         )
-    
+
     return dict(wallet)
+
+
+# ------------------------------------------
+# Deposit
+# ------------------------------------------
+@router.post("/deposit")
+def deposit_money(
+    payload: DepositRequest,
+    user=Depends(get_current_user)
+):
+    deposit(
+        user["sub"],
+        payload.amount
+    )
+
+    return {
+        "message": "Money deposited successfully"
+    }
+
+
+# ------------------------------------------
+# Withdraw
+# ------------------------------------------
+@router.post("/withdraw")
+def withdraw_money(
+    payload: WithdrawRequest,
+    user=Depends(get_current_user)
+):
+    withdraw(
+        user["sub"],
+        payload.amount
+    )
+
+    return {
+        "message": "Money withdrawn successfully"
+    }
+
+
+# ------------------------------------------
+# Transfer
+# ------------------------------------------
+@router.post("/transfer")
+def transfer_money(
+    payload: TransferRequest,
+    user=Depends(get_current_user)
+):
+    return transfer(
+        user["sub"],
+        payload.receiver_wallet_id,
+        payload.amount
+    )
+
+
+# ------------------------------------------
+# Transactions
+# ------------------------------------------
+@router.get("/transactions")
+def transactions(
+    user=Depends(get_current_user)
+):
+    wallet = get_wallet(
+        user["sub"]
+    )
+
+    if not wallet:
+        raise HTTPException(
+            status_code=404,
+            detail="Wallet not found"
+        )
+
+    return get_transactions(
+        wallet["wallet_id"]
+    )
+
+
+# ------------------------------------------
+# Debug Routes
+# ------------------------------------------
+print("\nROUTER ROUTES:")
+for route in router.routes:
+    methods = ", ".join(route.methods)
+    print(f"{methods:15} {route.path}")

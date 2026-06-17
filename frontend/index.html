@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    Fintech Wallet Dashboard
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100">
+
+<div class="min-h-screen flex">
+
+  <!-- SIDEBAR -->
+
+  <aside
+    class="w-72 bg-slate-900 text-white p-8"
+  >
+
+    <h1
+      class="text-3xl font-bold mb-12"
+    >
+      💳 Fintech
+    </h1>
+
+    <div class="space-y-4">
+
+      <button
+        onclick="showSection('auth')"
+        class="w-full bg-slate-800 p-4 rounded"
+      >
+        Authentication
+      </button>
+
+      <button
+        onclick="showSection('wallet')"
+        class="w-full bg-slate-800 p-4 rounded"
+      >
+        Wallet
+      </button>
+
+      <button
+        onclick="showSection('transactions')"
+        class="w-full bg-slate-800 p-4 rounded"
+      >
+        Transactions
+      </button>
+
+    </div>
+
+    <div class="mt-12">
+
+      <h3 class="font-semibold mb-3">
+        Token Status
+      </h3>
+
+      <p
+        id="tokenStatus"
+        class="text-red-400"
+      >
+        Not Logged In
+      </p>
+
+    </div>
+
+  </aside>
+
+  <!-- CONTENT -->
+
+  <main
+    class="flex-1 p-10 space-y-8"
+  >
+
+    <h1
+      class="text-4xl font-bold"
+    >
+      Fintech Wallet Dashboard
+    </h1>
+
+    <!-- AUTH -->
+
+    <section id="auth">
+
+      <div
+        class="grid md:grid-cols-2 gap-8"
+      >
+
+        <!-- REGISTER -->
+
+        <div
+          class="bg-white rounded-2xl p-8 shadow"
+        >
+
+          <h2
+            class="text-2xl font-bold mb-6"
+          >
+            Register
+          </h2>
+
+          <div class="space-y-4">
+
+            <input
+              id="regName"
+              placeholder="Name"
+              class="w-full border p-3 rounded-lg"
+            />
+
+            <input
+              id="regEmail"
+              placeholder="Email"
+              class="w-full border p-3 rounded-lg"
+            />
+
+            <input
+              id="regPassword"
+              type="password"
+              placeholder="Password"
+              class="w-full border p-3 rounded-lg"
+            />
+
+            <button
+              onclick="registerUser()"
+              class="w-full bg-blue-600 text-white p-3 rounded-lg"
+            >
+              Register
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- LOGIN -->
+
+        <div
+          class="bg-white rounded-2xl p-8 shadow"
+        >
+
+          <h2
+            class="text-2xl font-bold mb-6"
+          >
+            Login
+          </h2>
+
+          <div class="space-y-4">
+
+            <input
+              id="loginEmail"
+              placeholder="Email"
+              class="w-full border p-3 rounded-lg"
+            />
+
+            <input
+              id="loginPassword"
+              type="password"
+              placeholder="Password"
+              class="w-full border p-3 rounded-lg"
+            />
+
+            <button
+              onclick="loginUser()"
+              class="w-full bg-green-600 text-white p-3 rounded-lg"
+            >
+              Login
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- WALLET -->
+
+    <section
+      id="wallet"
+      class="hidden"
+    >
+
+      <div
+        class="grid md:grid-cols-3 gap-6"
+      >
+
+        <!-- PROFILE -->
+
+        <div
+          class="bg-white p-6 rounded-2xl shadow"
+        >
+
+          <h2
+            class="text-xl font-bold mb-4"
+          >
+            Profile
+          </h2>
+
+          <button
+            onclick="getProfile()"
+            class="bg-purple-600 text-white px-5 py-3 rounded-lg"
+          >
+            Load Profile
+          </button>
+
+        </div>
+
+        <!-- WALLET -->
+
+        <div
+          class="bg-white p-6 rounded-2xl shadow"
+        >
+
+          <h2
+            class="text-xl font-bold mb-4"
+          >
+            Wallet
+          </h2>
+
+          <button
+            onclick="getWallet()"
+            class="bg-indigo-600 text-white px-5 py-3 rounded-lg"
+          >
+            Load Wallet
+          </button>
+
+        </div>
+
+        <!-- DEPOSIT -->
+
+        <div
+          class="bg-white p-6 rounded-2xl shadow"
+        >
+
+          <h2
+            class="text-xl font-bold mb-4"
+          >
+            Deposit
+          </h2>
+
+          <input
+            id="depositAmount"
+            type="number"
+            placeholder="Amount"
+            class="w-full border p-3 rounded-lg mb-4"
+          />
+
+          <button
+            onclick="depositMoney()"
+            class="bg-emerald-600 text-white px-5 py-3 rounded-lg"
+          >
+            Deposit
+          </button>
+
+        </div>
+
+        <!-- WITHDRAW -->
+
+        <div
+          class="bg-white p-6 rounded-2xl shadow"
+        >
+
+          <h2
+            class="text-xl font-bold mb-4"
+          >
+            Withdraw
+          </h2>
+
+          <input
+            id="withdrawAmount"
+            type="number"
+            placeholder="Amount"
+            class="w-full border p-3 rounded-lg mb-4"
+          />
+
+          <button
+            onclick="withdrawMoney()"
+            class="bg-red-600 text-white px-5 py-3 rounded-lg"
+          >
+            Withdraw
+          </button>
+
+        </div>
+
+        <!-- TRANSFER -->
+
+        <div
+          class="bg-white p-6 rounded-2xl shadow md:col-span-2"
+        >
+
+          <h2
+            class="text-xl font-bold mb-4"
+          >
+            Transfer
+          </h2>
+
+          <div
+            class="grid md:grid-cols-2 gap-4"
+          >
+
+            <input
+              id="receiverWallet"
+              placeholder="Receiver Wallet ID"
+              class="border p-3 rounded-lg"
+            />
+
+            <input
+              id="transferAmount"
+              type="number"
+              placeholder="Amount"
+              class="border p-3 rounded-lg"
+            />
+
+          </div>
+
+          <button
+            onclick="transferMoney()"
+            class="mt-5 bg-orange-600 text-white px-5 py-3 rounded-lg"
+          >
+            Transfer
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TRANSACTIONS -->
+
+    <section
+      id="transactions"
+      class="hidden"
+    >
+
+      <div
+        class="bg-white rounded-2xl p-8 shadow"
+      >
+
+        <div
+          class="flex justify-between items-center"
+        >
+
+          <h2
+            class="text-2xl font-bold"
+          >
+            Transactions
+          </h2>
+
+          <button
+            onclick="getTransactions()"
+            class="bg-slate-800 text-white px-5 py-3 rounded-lg"
+          >
+            Refresh
+          </button>
+
+        </div>
+
+        <div
+          id="transactionTable"
+          class="mt-8"
+        ></div>
+
+      </div>
+
+    </section>
+
+    <!-- CONSOLE -->
+
+    <div
+      class="bg-black rounded-2xl p-6"
+    >
+
+      <h2
+        class="text-green-400 font-bold mb-4"
+      >
+        API Console
+      </h2>
+
+      <pre
+        id="output"
+        class="text-green-300 overflow-auto"
+      ></pre>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+
+const API =
+  "http://127.0.0.1:8000";
+
+let token =
+  localStorage.getItem(
+    "token"
+  );
+
+updateTokenStatus();
+
+function authHeaders() {
+  return {
+    Authorization:
+      `Bearer ${token}`,
+    "Content-Type":
+      "application/json"
+  };
+}
+
+function show(data) {
+  output.textContent =
+    JSON.stringify(
+      data,
+      null,
+      2
+    );
+}
+
+function updateTokenStatus() {
+  tokenStatus.textContent =
+    token
+      ? "Logged In"
+      : "Not Logged In";
+
+  tokenStatus.className =
+    token
+      ? "text-green-400"
+      : "text-red-400";
+}
+
+function showSection(id) {
+
+  [
+    "auth",
+    "wallet",
+    "transactions"
+  ].forEach(
+    s =>
+      document
+        .getElementById(s)
+        .classList
+        .add("hidden")
+  );
+
+  document
+    .getElementById(id)
+    .classList
+    .remove("hidden");
+}
+
+async function request(
+  endpoint,
+  method = "GET",
+  body = null
+) {
+
+  const res =
+    await fetch(
+      `${API}${endpoint}`,
+      {
+        method,
+        headers:
+          endpoint === "/register" ||
+          endpoint === "/login"
+            ? {
+                "Content-Type":
+                  "application/json"
+              }
+            : authHeaders(),
+        body:
+          body
+            ? JSON.stringify(body)
+            : null
+      }
+    );
+
+  const data =
+    await res.json();
+
+  show(data);
+
+  return data;
+}
+
+async function registerUser() {
+
+  await request(
+    "/register",
+    "POST",
+    {
+      name:
+        regName.value,
+      email:
+        regEmail.value,
+      password:
+        regPassword.value
+    }
+  );
+}
+
+async function loginUser() {
+
+  const data =
+    await request(
+      "/login",
+      "POST",
+      {
+        email:
+          loginEmail.value,
+        password:
+          loginPassword.value
+      }
+    );
+
+  if (
+    data.access_token
+  ) {
+    token =
+      data.access_token;
+
+    localStorage.setItem(
+      "token",
+      token
+    );
+
+    updateTokenStatus();
+  }
+}
+
+async function getProfile() {
+  await request("/profile");
+}
+
+async function getWallet() {
+  await request("/wallet");
+}
+
+async function depositMoney() {
+  await request(
+    "/deposit",
+    "POST",
+    {
+      amount:
+        Number(
+          depositAmount.value
+        )
+    }
+  );
+}
+
+async function withdrawMoney() {
+  await request(
+    "/withdraw",
+    "POST",
+    {
+      amount:
+        Number(
+          withdrawAmount.value
+        )
+    }
+  );
+}
+
+async function transferMoney() {
+  await request(
+    "/transfer",
+    "POST",
+    {
+      receiver_wallet_id:
+        receiverWallet.value,
+      amount:
+        Number(
+          transferAmount.value
+        )
+    }
+  );
+}
+
+async function getTransactions() {
+
+  const data =
+    await request(
+      "/transactions",
+      "POST"
+    );
+
+  if (
+    Array.isArray(data)
+  ) {
+
+    transactionTable.innerHTML =
+      `
+      <table class="w-full border">
+        <thead>
+          <tr class="bg-slate-200">
+            <th class="p-3">Type</th>
+            <th class="p-3">Amount</th>
+            <th class="p-3">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            data.map(
+              t =>
+              `
+              <tr class="border-t">
+                <td class="p-3">
+                  ${t.transaction_type}
+                </td>
+                <td class="p-3">
+                  ₹${t.amount}
+                </td>
+                <td class="p-3">
+                  ${t.created_at}
+                </td>
+              </tr>
+              `
+            ).join("")
+          }
+        </tbody>
+      </table>
+      `;
+  }
+}
+
+</script>
+
+</body>
+</html>
