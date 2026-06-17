@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Fintech Wallet Backend
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+<!-- HERO -->
+
+<section class="bg-slate-900 text-white">
+
+  <div
+    class="max-w-7xl mx-auto px-8 py-24"
+  >
+
+```
+<div class="max-w-4xl">
+
+  <p
+    class="uppercase tracking-widest text-sky-400 mb-4"
+  >
+    FastAPI • JWT • SQLite • JSON
+  </p>
+
+  <h1
+    class="text-6xl font-bold mb-6"
+  >
+    Fintech Wallet Backend
+  </h1>
+
+  <p class="text-2xl text-slate-300 mb-10 leading-relaxed">
+  Fintech Wallet Backend is a learning-oriented
+  payment system inspired by modern digital
+  wallets and payment applications.
+  The project demonstrates how authentication,
+  wallet management, money transfers,
+  transaction history, and database
+  consistency work behind the scenes.
+
+  It combines NoSQL-style document storage
+  for user information and SQL transactions
+  for financial operations, helping developers
+  understand why real-world payment systems
+  rarely rely on a single storage strategy.
+</p>
+
+  <div
+    class="flex flex-wrap gap-4"
+  >
+
+    <a
+      href="https://github.com/your-username/your-repo"
+      class="bg-sky-500 px-6 py-4 rounded-xl font-semibold"
+    >
+      View Repository
+    </a>
+
+    <a
+      href="#architecture"
+      class="bg-slate-700 px-6 py-4 rounded-xl"
+    >
+      Architecture
+    </a>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- OVERVIEW -->
+
+<section class="py-20">
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  Project Overview
+</h2>
+
+<div
+  class="grid md:grid-cols-3 gap-8"
+>
+
+  <div
+    class="bg-white p-8 rounded-2xl shadow"
+  >
+    <h3
+      class="text-2xl font-bold mb-4"
+    >
+      Authentication
+    </h3>
+
+    <p>
+      Secure registration and login
+      using password hashing and JWT
+      authentication.
+    </p>
+  </div>
+
+  <div
+    class="bg-white p-8 rounded-2xl shadow"
+  >
+    <h3
+      class="text-2xl font-bold mb-4"
+    >
+      Wallet System
+    </h3>
+
+    <p>
+      Users automatically receive
+      wallets and can deposit,
+      withdraw, and transfer money.
+    </p>
+  </div>
+
+  <div
+    class="bg-white p-8 rounded-2xl shadow"
+  >
+    <h3
+      class="text-2xl font-bold mb-4"
+    >
+      Transaction Engine
+    </h3>
+
+    <p>
+      Every money operation is stored
+      using SQL transactions and
+      audit records.
+    </p>
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<section class="py-20 bg-white">
+
+  <div class="max-w-7xl mx-auto px-8">
+
+    <h2 class="text-4xl font-bold mb-10">
+      Why I Built This Project
+    </h2>
+
+    <div class="space-y-6 text-lg leading-8 text-slate-700">
+
+      <p>
+        Modern payment applications such as
+        digital wallets, banking apps, and
+        fintech platforms need much more than
+        simple CRUD operations.
+      </p>
+
+      <p>
+        They must authenticate users securely,
+        maintain wallet balances accurately,
+        prevent money from disappearing during
+        failures, and preserve a complete
+        transaction history for auditing.
+      </p>
+
+      <p>
+        This project was built to understand
+        the core engineering principles behind
+        these systems and implement them in a
+        simplified but realistic backend using
+        FastAPI, SQLite, JSON, and JWT
+        authentication.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ARCHITECTURE -->
+
+<section
+  id="architecture"
+  class="bg-slate-100 py-20"
+>
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  System Architecture
+</h2>
+```
+
+<pre class="bg-slate-900 text-green-400 p-8 rounded-2xl overflow-auto text-lg">
+Client
+   │
+   ▼
+FastAPI
+   │
+   ├── Authentication Service
+   │
+   ├── User Service
+   │      └── users.json
+   │
+   ├── Wallet Service
+   │      └── SQLite
+   │
+   └── Transaction Service
+          └── SQLite
+</pre>
+<p class="mt-8 text-lg text-slate-700 leading-8">
+  The application follows a layered service
+  architecture.
+
+  Client requests are received by FastAPI
+  endpoints, validated using Pydantic
+  schemas, processed through business
+  services, and persisted into storage
+  systems.
+
+  Authentication concerns are separated from
+  wallet operations, and financial
+  transactions are isolated inside SQL
+  transactions to maintain consistency and
+  reliability.
+</p>
+
+  </div>
+  
+
+</section>
+
+
+
+<!-- SQL + NOSQL -->
+
+<section class="py-20">
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  Why SQL + NoSQL?
+</h2>
+
+<div
+  class="grid md:grid-cols-2 gap-8"
+>
+
+  <div
+    class="bg-white p-8 rounded-2xl shadow"
+  >
+
+    <h3
+      class="text-3xl font-bold mb-6"
+    >
+      JSON (NoSQL)
+    </h3>
+    <p class="mt-6 leading-8">
+  User information is naturally flexible.
+  Different users may have different profile
+  settings, preferences, addresses, and
+  metadata.
+
+  Document-based storage makes it easy to
+  evolve user information without requiring
+  frequent schema migrations.
+</p>
+```
+
+<pre class="bg-slate-100 p-6 rounded-xl overflow-auto">
+{
+  "id": "USR-123",
+  "name": "Sarthak",
+  "email": "sarthak@gmail.com",
+  "wallet_id": "WAL-123"
+}
+</pre>
+
+```
+    <p class="mt-6">
+      Flexible user information,
+      preferences, profile data,
+      settings, and documents.
+    </p>
+
+  </div>
+
+  <div
+    class="bg-white p-8 rounded-2xl shadow"
+  >
+
+    <h3
+      class="text-3xl font-bold mb-6"
+    >
+      SQLite (SQL)
+    </h3>
+    <p class="mt-6 leading-8">
+  Financial operations require guarantees.
+
+  Wallet balances and transactions must
+  remain consistent even if the server
+  crashes in the middle of a transfer.
+
+  SQL databases provide transactions,
+  rollback mechanisms, relational integrity,
+  and ACID properties, making them ideal for
+  monetary data.
+</p>
+```
+
+<pre class="bg-slate-100 p-6 rounded-xl overflow-auto">
+wallets
+transactions
+audit records
+balances
+</pre>
+
+```
+    <p class="mt-6">
+      Financial data requires
+      consistency, transactions,
+      rollback, and relational
+      integrity.
+    </p>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- MONEY FLOW -->
+
+<section class="bg-slate-100 py-20">
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  Money Transfer Flow
+</h2>
+```
+
+<pre class="bg-slate-900 text-green-400 p-8 rounded-2xl overflow-auto text-lg">
+BEGIN
+    ↓
+Validate Sender
+    ↓
+Validate Receiver
+    ↓
+Check Balance
+    ↓
+Deduct Sender
+    ↓
+Credit Receiver
+    ↓
+Insert Transaction Record
+    ↓
+COMMIT
+</pre>
+
+<p class="mt-8 text-lg leading-8 text-slate-700">
+
+Every money transfer is executed inside a
+single database transaction.
+
+If any step fails, the database performs a
+rollback and returns to its previous state.
+
+This prevents situations where money is
+deducted from one wallet but never credited
+to another wallet.
+
+This concept of atomicity is one of the most
+important principles in financial systems.
+</p>
+
+
+<p class="mt-8 text-xl">
+If any step fails:
+</p>
+
+<pre class="bg-red-900 text-red-200 p-8 rounded-2xl mt-6 overflow-auto">
+ROLLBACK
+</pre>
+
+  </div>
+
+</section>
+
+<section class="py-20">
+
+<div class="max-w-7xl mx-auto px-8">
+
+<h2 class="text-4xl font-bold mb-12">
+Authentication Flow
+</h2>
+
+<pre class="bg-slate-900 text-green-400 p-8 rounded-2xl overflow-auto text-lg">
+Register
+    ↓
+Hash Password
+    ↓
+Store User
+    ↓
+Login
+    ↓
+Verify Credentials
+    ↓
+Generate JWT Token
+    ↓
+Access Protected APIs
+</pre>
+
+<p class="mt-8 text-lg text-slate-700 leading-8">
+Passwords are never stored in plain text.
+They are securely hashed before storage.
+
+After login, a JWT access token is
+generated and used to authorize protected
+wallet operations such as deposits,
+withdrawals, and money transfers.
+</p>
+
+</div>
+
+</section>
+
+
+
+
+<!-- ENDPOINTS -->
+
+<section class="py-20">
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  API Endpoints
+</h2>
+```
+
+<div class="overflow-auto">
+
+<table class="w-full bg-white rounded-2xl shadow">
+
+<thead class="bg-slate-900 text-white">
+<tr>
+<th class="p-4 text-left">Method</th>
+<th class="p-4 text-left">Endpoint</th>
+<th class="p-4 text-left">Purpose</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr class="border-t">
+<td class="p-4">POST</td>
+<td class="p-4">/register</td>
+<td class="p-4">Create user</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">POST</td>
+<td class="p-4">/login</td>
+<td class="p-4">Generate JWT</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">GET</td>
+<td class="p-4">/profile</td>
+<td class="p-4">User profile</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">GET</td>
+<td class="p-4">/wallet</td>
+<td class="p-4">Wallet details</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">POST</td>
+<td class="p-4">/deposit</td>
+<td class="p-4">Deposit money</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">POST</td>
+<td class="p-4">/withdraw</td>
+<td class="p-4">Withdraw money</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">POST</td>
+<td class="p-4">/transfer</td>
+<td class="p-4">Transfer money</td>
+</tr>
+
+<tr class="border-t">
+<td class="p-4">GET</td>
+<td class="p-4">/transactions</td>
+<td class="p-4">Transaction history</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+  </div>
+
+</section>
+
+
+<section class="py-20 bg-slate-100">
+
+<div class="max-w-7xl mx-auto px-8">
+
+<h2 class="text-4xl font-bold mb-12">
+Key Engineering Concepts
+</h2>
+
+<div class="grid md:grid-cols-2 gap-8">
+
+<div class="bg-white p-8 rounded-2xl shadow">
+<h3 class="text-2xl font-bold mb-4">
+JWT Authentication
+</h3>
+
+<p>
+Secure stateless authentication using access
+tokens and protected endpoints.
+</p>
+</div>
+
+<div class="bg-white p-8 rounded-2xl shadow">
+<h3 class="text-2xl font-bold mb-4">
+Service Layer Architecture
+</h3>
+
+<p>
+Business logic is separated from API routes,
+making the system easier to maintain and
+extend.
+</p>
+</div>
+
+<div class="bg-white p-8 rounded-2xl shadow">
+<h3 class="text-2xl font-bold mb-4">
+ACID Transactions
+</h3>
+
+<p>
+Financial operations are executed atomically
+using BEGIN, COMMIT, and ROLLBACK.
+</p>
+</div>
+
+<div class="bg-white p-8 rounded-2xl shadow">
+<h3 class="text-2xl font-bold mb-4">
+Hybrid Storage Strategy
+</h3>
+
+<p>
+Combining JSON-based documents with
+relational databases demonstrates practical
+trade-offs between flexibility and
+consistency.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="py-20">
+
+<div class="max-w-7xl mx-auto px-8">
+
+<h2 class="text-4xl font-bold mb-12">
+Future Improvements
+</h2>
+
+<ul class="space-y-4 text-lg text-slate-700">
+
+<li>✅ PostgreSQL instead of SQLite</li>
+<li>✅ SQLAlchemy ORM</li>
+<li>✅ Refresh Tokens</li>
+<li>✅ Redis Caching</li>
+<li>✅ Idempotency Keys</li>
+<li>✅ Docker Deployment</li>
+<li>✅ Message Queues</li>
+<li>✅ Audit Logging Service</li>
+<li>✅ Microservice Architecture</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- TECH STACK -->
+
+<section class="bg-slate-900 text-white py-20">
+
+  <div
+    class="max-w-7xl mx-auto px-8"
+  >
+
+```
+<h2
+  class="text-4xl font-bold mb-12"
+>
+  Technology Stack
+</h2>
+```
+
+<div
+  class="grid md:grid-cols-4 gap-6"
+>
+
+<div class="bg-slate-800 p-6 rounded-2xl">
+FastAPI
+</div>
+
+<div class="bg-slate-800 p-6 rounded-2xl">
+SQLite
+</div>
+
+<div class="bg-slate-800 p-6 rounded-2xl">
+JWT Authentication
+</div>
+
+<div class="bg-slate-800 p-6 rounded-2xl">
+Tailwind CSS
+</div>
+
+</div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer
+  class="py-16 text-center"
+>
+
+<h2
+  class="text-3xl font-bold mb-4"
+>
+Fintech Wallet Backend
+</h2>
+
+<p class="text-slate-500 max-w-3xl mx-auto leading-8">
+This project was built to understand the
+fundamental engineering concepts behind
+modern payment systems, including
+authentication, transaction management,
+database consistency, and hybrid storage
+architectures.
+
+Although simplified for educational
+purposes, the design closely resembles the
+core ideas used in real fintech and digital
+wallet platforms.
+</p>
+
+</footer>
+
+</body>
+</html>
