@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 # ------------------------------------------
 # Imports
 # ------------------------------------------
 from fastapi import HTTPException
+=======
+from database.db import get_connection
+from fastapi import HTTPException
+from utils.generators import (
+    generate_transaction_id
+)
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 
 from database.db import get_connection
 from utils.generators import (
@@ -64,6 +72,7 @@ def get_wallet(
 
     return wallet
 
+<<<<<<< HEAD
 
 # ------------------------------------------
 # Deposit
@@ -71,10 +80,19 @@ def get_wallet(
 def deposit(
         user_id: str,
         amount: float
+=======
+#--------------------------------
+#        DEPOSIT
+#--------------------------------
+def deposit(
+    user_id: str,
+    amount: float
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 ):
     conn = get_connection()
     cursor = conn.cursor()
 
+<<<<<<< HEAD
     try:
         conn.execute("BEGIN")
 
@@ -95,6 +113,10 @@ def deposit(
                 detail="Wallet not found"
             )
 
+=======
+    try: 
+        conn.execute("BEGIN")
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         cursor.execute(
             """
             UPDATE wallets
@@ -103,14 +125,33 @@ def deposit(
             """,
             (
                 amount,
+<<<<<<< HEAD
                 user_id
             )
         )
 
+=======
+                user_id,
+            )
+        )
+
+        cursor.execute(
+            """
+            SELECT wallet_id
+            FROM wallets
+            WHERE user_id = ?
+            """,
+            (user_id,)
+        )
+
+        wallet = cursor.fetchone()
+
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         txn_id = generate_transaction_id()
 
         cursor.execute(
             """
+<<<<<<< HEAD
             INSERT INTO transactions
             (
                 transaction_id,
@@ -121,6 +162,12 @@ def deposit(
                 status
             )
             VALUES (?, ?, ?, ?, ?, ?)
+=======
+            INSERT INTO transactions 
+            VALUES (
+                ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP
+            )
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
             """,
             (
                 txn_id,
@@ -134,6 +181,7 @@ def deposit(
 
         conn.commit()
 
+<<<<<<< HEAD
         return {
             "message":
             "Deposit successful",
@@ -155,6 +203,26 @@ def deposit(
 def withdraw(
         user_id: str,
         amount: float
+=======
+    except:
+        conn.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Deposit failed"
+        )
+    finally: 
+        conn.close()
+
+
+
+#--------------------------------
+#        WITHDRAW
+#--------------------------------
+
+def withdraw(
+    user_id: str,
+    amount: float
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 ):
     conn = get_connection()
     cursor = conn.cursor()
@@ -202,6 +270,7 @@ def withdraw(
         cursor.execute(
             """
             INSERT INTO transactions
+<<<<<<< HEAD
             (
                 transaction_id,
                 sender_wallet,
@@ -211,6 +280,11 @@ def withdraw(
                 status
             )
             VALUES (?, ?, ?, ?, ?, ?)
+=======
+            VALUES (
+                ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP
+            )
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
             """,
             (
                 txn_id,
@@ -224,6 +298,7 @@ def withdraw(
 
         conn.commit()
 
+<<<<<<< HEAD
         return {
             "message":
             "Withdrawal successful",
@@ -232,12 +307,16 @@ def withdraw(
         }
 
     except Exception:
+=======
+    except:
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         conn.rollback()
         raise
 
     finally:
         conn.close()
 
+<<<<<<< HEAD
 
 # ------------------------------------------
 # Transfer
@@ -246,6 +325,15 @@ def transfer(
         sender_user_id: str,
         receiver_wallet_id: str,
         amount: float
+=======
+#--------------------------------
+#        TRANSFER
+#--------------------------------
+def transfer(
+    sender_user_id: str,
+    receiver_wallet_id: str,
+    amount: float
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 ):
     conn = get_connection()
     cursor = conn.cursor()
@@ -253,9 +341,15 @@ def transfer(
     try:
         conn.execute("BEGIN")
 
+<<<<<<< HEAD
         #
         # Sender wallet
         #
+=======
+        #---------------------------
+        # Get sender wallet
+        #---------------------------
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         cursor.execute(
             """
             SELECT *
@@ -273,9 +367,15 @@ def transfer(
                 detail="Sender wallet not found"
             )
 
+<<<<<<< HEAD
         #
         # Receiver wallet
         #
+=======
+        #---------------------------
+        # Get receiver wallet
+        #---------------------------
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         cursor.execute(
             """
             SELECT *
@@ -293,9 +393,15 @@ def transfer(
                 detail="Receiver wallet not found"
             )
 
+<<<<<<< HEAD
         #
         # Prevent self transfer
         #
+=======
+        #---------------------------
+        # Prevent self transfer
+        #---------------------------
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         if (
             sender_wallet["wallet_id"]
             == receiver_wallet_id
@@ -305,18 +411,32 @@ def transfer(
                 detail="Cannot transfer to yourself"
             )
 
+<<<<<<< HEAD
         #
         # Balance check
         #
+=======
+        #---------------------------
+        # Balance check
+        #---------------------------
+        
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         if sender_wallet["balance"] < amount:
             raise HTTPException(
                 status_code=400,
                 detail="Insufficient balance"
             )
 
+<<<<<<< HEAD
         #
         # Deduct sender
         #
+=======
+        #---------------------------
+        # Deduct sender
+        #---------------------------
+        
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         cursor.execute(
             """
             UPDATE wallets
@@ -329,9 +449,15 @@ def transfer(
             )
         )
 
+<<<<<<< HEAD
         #
         # Credit receiver
         #
+=======
+        #---------------------------
+        # Credit receiver
+        #---------------------------
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         cursor.execute(
             """
             UPDATE wallets
@@ -344,14 +470,21 @@ def transfer(
             )
         )
 
+<<<<<<< HEAD
         #
         # Create transaction
         #
+=======
+        #---------------------------
+        # Create transaction
+        #---------------------------
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         txn_id = generate_transaction_id()
 
         cursor.execute(
             """
             INSERT INTO transactions
+<<<<<<< HEAD
             (
                 transaction_id,
                 sender_wallet,
@@ -361,6 +494,11 @@ def transfer(
                 status
             )
             VALUES (?, ?, ?, ?, ?, ?)
+=======
+            VALUES (
+                ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP
+            )
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
             """,
             (
                 txn_id,
@@ -375,6 +513,7 @@ def transfer(
         conn.commit()
 
         return {
+<<<<<<< HEAD
             "message":
             "Transfer successful",
             "transaction_id":
@@ -388,6 +527,17 @@ def transfer(
         }
 
     except Exception:
+=======
+            "transaction_id": txn_id,
+            "amount": amount,
+            "sender":
+                sender_wallet["wallet_id"],
+            "receiver":
+                receiver_wallet_id
+        }
+
+    except:
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
         conn.rollback()
         raise
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ------------------------------------------
 # Imports
 # ------------------------------------------
@@ -9,6 +10,19 @@ from database.db import get_connection
 # ------------------------------------------
 def get_transactions(
         wallet_id: str
+=======
+#
+#
+#
+from database.db import get_connection
+
+#--------------------------
+#       Methods
+#--------------------------
+
+def get_transactions(
+    wallet_id: str
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 ):
     conn = get_connection()
     cursor = conn.cursor()
@@ -34,6 +48,7 @@ def get_transactions(
     return [
         dict(row)
         for row in rows
+<<<<<<< HEAD
     ]
 
 
@@ -174,3 +189,6 @@ def get_transaction_stats(
         "total_received":
             total_received
     }
+=======
+    ]
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98

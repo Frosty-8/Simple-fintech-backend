@@ -26,9 +26,12 @@ from services.user_service import (
 
 from services.wallet_service import (
     create_wallet,
+<<<<<<< HEAD
     get_wallet,
     deposit,
     withdraw,
+=======
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
     transfer
 )
 
@@ -42,6 +45,24 @@ from users.auth import (
     get_current_user
 )
 
+<<<<<<< HEAD
+=======
+from services.wallet_service import (
+    get_wallet,
+    deposit,
+    withdraw
+)
+
+from schemas.wallet_schema import (
+    DepositRequest,
+    WithdrawRequest,
+    TransferRequest
+)
+
+from services.transaction_service import (
+    get_transactions
+)
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 
 # ------------------------------------------
 # Router
@@ -58,10 +79,13 @@ def home():
         "message": "Fintech Wallet API Running"
     }
 
+<<<<<<< HEAD
 
 # ------------------------------------------
 # Register
 # ------------------------------------------
+=======
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 @router.post("/register")
 def register(
     payload: UserRegister
@@ -134,6 +158,7 @@ def wallet(
             status_code=404,
             detail="Wallet not found"
         )
+<<<<<<< HEAD
 
     return dict(wallet)
 
@@ -141,6 +166,11 @@ def wallet(
 # ------------------------------------------
 # Deposit
 # ------------------------------------------
+=======
+    
+    return dict(wallet)
+
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 @router.post("/deposit")
 def deposit_money(
     payload: DepositRequest,
@@ -152,6 +182,7 @@ def deposit_money(
     )
 
     return {
+<<<<<<< HEAD
         "message": "Money deposited successfully"
     }
 
@@ -159,6 +190,12 @@ def deposit_money(
 # ------------------------------------------
 # Withdraw
 # ------------------------------------------
+=======
+        "message":
+        "Money deposited successfully"
+    }
+
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 @router.post("/withdraw")
 def withdraw_money(
     payload: WithdrawRequest,
@@ -170,6 +207,7 @@ def withdraw_money(
     )
 
     return {
+<<<<<<< HEAD
         "message": "Money withdrawn successfully"
     }
 
@@ -177,6 +215,13 @@ def withdraw_money(
 # ------------------------------------------
 # Transfer
 # ------------------------------------------
+=======
+        "message":
+        "Money withdrawn successfully"
+    } 
+
+
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 @router.post("/transfer")
 def transfer_money(
     payload: TransferRequest,
@@ -189,10 +234,14 @@ def transfer_money(
     )
 
 
+<<<<<<< HEAD
 # ------------------------------------------
 # Transactions
 # ------------------------------------------
 @router.get("/transactions")
+=======
+@router.post("/transactions")
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
 def transactions(
     user=Depends(get_current_user)
 ):
@@ -200,6 +249,7 @@ def transactions(
         user["sub"]
     )
 
+<<<<<<< HEAD
     if not wallet:
         raise HTTPException(
             status_code=404,
@@ -218,3 +268,8 @@ print("\nROUTER ROUTES:")
 for route in router.routes:
     methods = ", ".join(route.methods)
     print(f"{methods:15} {route.path}")
+=======
+    return get_transactions(
+        wallet["wallet_id"]
+    )
+>>>>>>> 2448d9e1b8758c90d3a2e8f15811144694734f98
